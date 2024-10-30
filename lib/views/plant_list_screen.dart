@@ -7,41 +7,77 @@ import 'package:plants_mobile/views/plant_detail_screen.dart';
 class PlantListScreen extends StatelessWidget {
   final PlantService _plantService = PlantService();
 
+  PlantListScreen({super.key});
+
+  void _showDeleteConfirmationDialog(BuildContext context, Plant plant) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmar Exclusão'),
+          content: const Text('Tem certeza de que deseja excluir esta planta?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Excluir'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _plantService.deletePlant(plant.id!);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF6FCDF), // Light background color
+      backgroundColor: const Color(0xFF1A1A19), // Light background color
       appBar: AppBar(
-        title: Text("Catálogo de Plantas"),
-        backgroundColor: Color(0xFFF6FCDF), // Dark green color for the header
+        title: const Text(
+          "Catálogo de Plantas",
+          style: TextStyle(color: Color(0xFF859F3D)), // Dark color for title
+        ),
+        backgroundColor:
+            const Color(0xFF1A1A19), // Light background color for the header
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF31511E)),
       ),
       body: StreamBuilder<List<Plant>>(
         stream: _plantService.getPlants(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           final plants = snapshot.data ?? [];
           return ListView.builder(
-            padding: EdgeInsets.all(16), // Add padding for a cleaner layout
+            padding:
+                const EdgeInsets.all(16), // Add padding for a cleaner layout
             itemCount: plants.length,
             itemBuilder: (context, index) {
               final plant = plants[index];
               return Card(
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                     vertical: 8), // Add spacing between cards
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                       15), // Rounded edges for a modern look
                 ),
-                color: Color(0xFFFFFFFF), // White background for the card
+                color: const Color(0xFFFFFFFF), // White background for the card
                 elevation: 3, // Soft shadow effect
                 child: ListTile(
                   contentPadding:
-                      EdgeInsets.all(16), // Add padding inside the card
+                      const EdgeInsets.all(16), // Add padding inside the card
                   title: Text(
                     plant.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Color(0xFF31511E), // Dark green color for titles
@@ -49,7 +85,7 @@ class PlantListScreen extends StatelessWidget {
                   ),
                   subtitle: Text(
                     plant.description,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color:
                             Color(0xFF859F3D)), // Lighter green for description
                   ),
@@ -57,7 +93,7 @@ class PlantListScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.edit, color: Color(0xFF31511E)),
+                        icon: const Icon(Icons.edit, color: Color(0xFF31511E)),
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -66,8 +102,9 @@ class PlantListScreen extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _plantService.deletePlant(plant.id!),
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () =>
+                            _showDeleteConfirmationDialog(context, plant),
                       ),
                     ],
                   ),
@@ -86,12 +123,12 @@ class PlantListScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PlantFormScreen()),
+          MaterialPageRoute(builder: (context) => const PlantFormScreen()),
         ),
-        backgroundColor: Color(0xFF31511E), // Dark green color for FAB
-        child: Icon(Icons.add,
-            color: Color(0xFFF6FCDF)), // Contrast color for FAB icon
         elevation: 6, // Elevation to add shadow and depth
+        backgroundColor: const Color(0xFF31511E), // Dark green color for FAB
+        child: const Icon(Icons.add,
+            color: Color(0xFF1A1A19)), // Contrast color for FAB icon
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation
           .endFloat, // Align FAB to the bottom right
