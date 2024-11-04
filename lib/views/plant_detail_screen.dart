@@ -43,21 +43,28 @@ class PlantDetailScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: const Color(0xFF31511E), // Fundo verde escuro
           title: const Text('Confirmar Exclusão',
-              style: TextStyle(color: Colors.white)),
+              style: TextStyle(color: Colors.white)), // Título do diálogo
           content: const Text('Tem certeza de que deseja excluir esta planta?',
-              style: TextStyle(color: Colors.white)),
+              style: TextStyle(color: Colors.white)), // Conteúdo do diálogo
           actions: <Widget>[
             TextButton(
-              child:
-                  const Text('Cancelar', style: TextStyle(color: Colors.white)),
+              style: TextButton.styleFrom(
+                backgroundColor: const Color(0xFF859F3D), // Fundo verde claro
+              ),
+              child: const Text('Cancelar',
+                  style: TextStyle(color: Colors.white)), // Texto branco
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo
               },
             ),
             TextButton(
-              child:
-                  const Text('Excluir', style: TextStyle(color: Colors.white)),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red, // Fundo vermelho
+              ),
+              child: const Text('Excluir',
+                  style: TextStyle(color: Colors.white)), // Texto branco
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo
                 _deletePlant(context); // Chama a função para excluir a planta
