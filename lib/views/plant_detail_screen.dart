@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:plants_mobile/models/plant.dart';
 import 'package:plants_mobile/services/plant_service.dart';
 import 'package:plants_mobile/views/plant_form_screen.dart';
+import 'package:plants_mobile/views/plant_list_screen.dart';
+import 'package:plants_mobile/components/toast.dart';
 
 class PlantDetailScreen extends StatelessWidget {
   final Plant plant;
@@ -10,9 +12,19 @@ class PlantDetailScreen extends StatelessWidget {
   PlantDetailScreen({super.key, required this.plant});
 
   Future<void> _deletePlant(BuildContext context) async {
-    await _plantService.deletePlant(plant.id!);
-    if (context.mounted) {
-      Navigator.pop(context);
+    try {
+      await _plantService.deletePlant(plant.id!);
+      Toast.showSuccess("Planta excluída com sucesso!",
+          backgroundColor: Colors.red);
+      if (context.mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => PlantListScreen()),
+          (Route<dynamic> route) => false,
+        );
+      }
+    } catch (e) {
+      Toast.showError("Erro ao excluir a planta: $e");
     }
   }
 
@@ -21,17 +33,29 @@ class PlantDetailScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirmar Exclusão'),
-          content: const Text('Tem certeza de que deseja excluir esta planta?'),
+          backgroundColor: const Color(0xFF31511E), // Dark green background
+          title: const Text('Confirmar Exclusão',
+              style: TextStyle(color: Colors.white)),
+          content: const Text('Tem certeza de que deseja excluir esta planta?',
+              style: TextStyle(color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancelar'),
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    const Color(0xFF859F3D), // Light green background
+              ),
+              child: const Text('Cancelar',
+                  style: TextStyle(color: Colors.white)), // White text
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Excluir'),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red, // Red background
+              ),
+              child: const Text('Excluir',
+                  style: TextStyle(color: Colors.white)), // White text
               onPressed: () {
                 Navigator.of(context).pop();
                 _deletePlant(context);
@@ -65,9 +89,13 @@ class PlantDetailScreen extends StatelessWidget {
               );
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: () => _showDeleteConfirmationDialog(context),
+          Padding(
+            padding: const EdgeInsets.only(
+                right: 30.0), // Move button to the left by 30 pixels
+            child: IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () => _showDeleteConfirmationDialog(context),
+            ),
           ),
         ],
       ),

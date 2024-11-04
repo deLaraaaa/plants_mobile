@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plants_mobile/models/plant.dart';
 import 'package:plants_mobile/services/plant_service.dart';
+import 'package:plants_mobile/components/toast.dart';
 
 class PlantFormScreen extends StatefulWidget {
   final Plant? plant;
@@ -40,22 +41,28 @@ class PlantFormScreenState extends State<PlantFormScreen> {
   Future<void> _savePlant() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      if (widget.plant == null) {
-        await _plantService.addPlant(Plant(
-            name: _nameController.text,
-            description: _descriptionController.text,
-            careInstructions: _careInstructionsController.text));
-      } else {
-        await _plantService.updatePlant(
-          Plant(
-              id: widget.plant!.id,
+      try {
+        if (widget.plant == null) {
+          await _plantService.addPlant(Plant(
               name: _nameController.text,
               description: _descriptionController.text,
-              careInstructions: _careInstructionsController.text),
-        );
-      }
-      if (mounted) {
-        Navigator.pop(context);
+              careInstructions: _careInstructionsController.text));
+          Toast.showSuccess("Planta adicionada com sucesso!");
+        } else {
+          await _plantService.updatePlant(
+            Plant(
+                id: widget.plant!.id,
+                name: _nameController.text,
+                description: _descriptionController.text,
+                careInstructions: _careInstructionsController.text),
+          );
+          Toast.showSuccess("Planta atualizada com sucesso!");
+        }
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        Toast.showError("Erro ao salvar a planta: $e");
       }
     }
   }

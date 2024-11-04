@@ -3,6 +3,7 @@ import 'package:plants_mobile/models/plant.dart';
 import 'package:plants_mobile/services/plant_service.dart';
 import 'package:plants_mobile/views/plant_form_screen.dart';
 import 'package:plants_mobile/views/plant_detail_screen.dart';
+import 'package:plants_mobile/components/toast.dart';
 
 class PlantListScreen extends StatelessWidget {
   final PlantService _plantService = PlantService();
@@ -14,20 +15,37 @@ class PlantListScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirmar Exclusão'),
-          content: const Text('Tem certeza de que deseja excluir esta planta?'),
+          backgroundColor: const Color(0xFF31511E), // Dark green background
+          title: const Text('Confirmar Exclusão',
+              style: TextStyle(color: Colors.white)),
+          content: const Text('Tem certeza de que deseja excluir esta planta?',
+              style: TextStyle(color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancelar'),
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    const Color(0xFF859F3D), // Light green background
+              ),
+              child: const Text('Cancelar',
+                  style: TextStyle(color: Colors.white)), // White text
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Excluir'),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red, // Red background
+              ),
+              child: const Text('Excluir',
+                  style: TextStyle(color: Colors.white)), // White text
               onPressed: () {
                 Navigator.of(context).pop();
-                _plantService.deletePlant(plant.id!);
+                _plantService.deletePlant(plant.id!).then((_) {
+                  Toast.showSuccess("Planta excluída com sucesso!",
+                      backgroundColor: Colors.red);
+                }).catchError((e) {
+                  Toast.showError("Erro ao excluir a planta: $e");
+                });
               },
             ),
           ],
