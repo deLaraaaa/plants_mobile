@@ -1,16 +1,17 @@
 class Plant {
-  String? id;
-  String name;
-  String description;
-  String careInstructions;
+  String? id; // ID da planta, opcional
+  String name; // Nome da planta
+  String description; // Descrição da planta
+  String careInstructions; // Instruções de cuidado da planta
 
+  // Construtor da classe Plant
   Plant(
       {this.id,
       required this.name,
       required this.description,
       required this.careInstructions});
 
-  // Converter para Map para salvar no Firestore
+  // Converte um objeto Plant para um Map para salvar no Firestore
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -19,7 +20,7 @@ class Plant {
     };
   }
 
-  // Converter de Map para criar um objeto Plant
+  // Converte um Map para criar um objeto Plant
   factory Plant.fromMap(String id, Map<String, dynamic> map) {
     return Plant(
       id: id,

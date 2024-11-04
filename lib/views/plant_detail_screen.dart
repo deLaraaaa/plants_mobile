@@ -5,60 +5,62 @@ import 'package:plants_mobile/views/plant_form_screen.dart';
 import 'package:plants_mobile/views/plant_list_screen.dart';
 import 'package:plants_mobile/components/toast.dart';
 
+/// Tela de detalhes da planta.
 class PlantDetailScreen extends StatelessWidget {
   final Plant plant;
   final PlantService _plantService = PlantService();
 
   PlantDetailScreen({super.key, required this.plant});
 
+  /// Função para excluir uma planta.
+  ///
+  /// [context] é o contexto da aplicação.
   Future<void> _deletePlant(BuildContext context) async {
     try {
-      await _plantService.deletePlant(plant.id!);
+      await _plantService
+          .deletePlant(plant.id!); // Exclui a planta do banco de dados
       Toast.showSuccess("Planta excluída com sucesso!",
-          backgroundColor: Colors.red);
+          backgroundColor: Colors.red); // Exibe mensagem de sucesso
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => PlantListScreen()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  PlantListScreen()), // Redireciona para a tela de lista de plantas
           (Route<dynamic> route) => false,
         );
       }
     } catch (e) {
-      Toast.showError("Erro ao excluir a planta: $e");
+      Toast.showError("Erro ao excluir a planta: $e"); // Exibe mensagem de erro
     }
   }
 
+  /// Exibe um diálogo de confirmação para excluir uma planta.
+  ///
+  /// [context] é o contexto da aplicação.
   void _showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF31511E), // Dark green background
           title: const Text('Confirmar Exclusão',
               style: TextStyle(color: Colors.white)),
           content: const Text('Tem certeza de que deseja excluir esta planta?',
               style: TextStyle(color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor:
-                    const Color(0xFF859F3D), // Light green background
-              ),
-              child: const Text('Cancelar',
-                  style: TextStyle(color: Colors.white)), // White text
+              child:
+                  const Text('Cancelar', style: TextStyle(color: Colors.white)),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Fecha o diálogo
               },
             ),
             TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.red, // Red background
-              ),
-              child: const Text('Excluir',
-                  style: TextStyle(color: Colors.white)), // White text
+              child:
+                  const Text('Excluir', style: TextStyle(color: Colors.white)),
               onPressed: () {
-                Navigator.of(context).pop();
-                _deletePlant(context);
+                Navigator.of(context).pop(); // Fecha o diálogo
+                _deletePlant(context); // Chama a função para excluir a planta
               },
             ),
           ],
@@ -70,13 +72,9 @@ class PlantDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6FCDF), // Fundo suave para a tela
       appBar: AppBar(
         title:
             Text(plant.name, style: const TextStyle(color: Color(0xFF1A1A19))),
-        backgroundColor: const Color(0xFFF6FCDF),
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF31511E)),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit, color: Color(0xFF31511E)),
@@ -84,7 +82,8 @@ class PlantDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PlantFormScreen(plant: plant),
+                  builder: (context) => PlantFormScreen(
+                      plant: plant), // Navega para a tela de edição de planta
                 ),
               );
             },
@@ -94,7 +93,8 @@ class PlantDetailScreen extends StatelessWidget {
                 right: 30.0), // Move button to the left by 30 pixels
             child: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _showDeleteConfirmationDialog(context),
+              onPressed: () => _showDeleteConfirmationDialog(
+                  context), // Exibe o diálogo de confirmação de exclusão
             ),
           ),
         ],
