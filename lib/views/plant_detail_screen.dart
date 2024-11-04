@@ -20,7 +20,8 @@ class PlantDetailScreen extends StatelessWidget {
       await _plantService
           .deletePlant(plant.id!); // Exclui a planta do banco de dados
       Toast.showSuccess("Planta excluída com sucesso!",
-          backgroundColor: Colors.red); // Exibe mensagem de sucesso
+          backgroundColor:
+              const Color(0xFFFCCD2A)); // Exibe mensagem de sucesso
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(
           context,
@@ -43,28 +44,31 @@ class PlantDetailScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF31511E), // Fundo verde escuro
+          backgroundColor: const Color(0xFF347928), // Fundo verde escuro
           title: const Text('Confirmar Exclusão',
-              style: TextStyle(color: Colors.white)), // Título do diálogo
+              style: TextStyle(color: Color(0xFFFCCD2A))), // Título do diálogo
           content: const Text('Tem certeza de que deseja excluir esta planta?',
-              style: TextStyle(color: Colors.white)), // Conteúdo do diálogo
+              style:
+                  TextStyle(color: Color(0xFFFCCD2A))), // Conteúdo do diálogo
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: const Color(0xFF859F3D), // Fundo verde claro
+                backgroundColor: const Color(0xFFC0EBA6), // Fundo verde claro
               ),
               child: const Text('Cancelar',
-                  style: TextStyle(color: Colors.white)), // Texto branco
+                  style: TextStyle(
+                      color: Color(0xFF347928))), // Texto verde escuro
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo
               },
             ),
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.red, // Fundo vermelho
+                backgroundColor: const Color(0xFFFCCD2A), // Fundo amarelo
               ),
               child: const Text('Excluir',
-                  style: TextStyle(color: Colors.white)), // Texto branco
+                  style: TextStyle(
+                      color: Color(0xFF347928))), // Texto verde escuro
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo
                 _deletePlant(context); // Chama a função para excluir a planta
@@ -79,12 +83,16 @@ class PlantDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFBE6), // Fundo suave para a tela
       appBar: AppBar(
         title:
-            Text(plant.name, style: const TextStyle(color: Color(0xFF1A1A19))),
+            Text(plant.name, style: const TextStyle(color: Color(0xFF347928))),
+        backgroundColor: const Color(0xFFFCCD2A),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF347928)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit, color: Color(0xFF31511E)),
+            icon: const Icon(Icons.edit, color: Color(0xFF347928)),
             onPressed: () {
               Navigator.push(
                 context,
@@ -99,7 +107,7 @@ class PlantDetailScreen extends StatelessWidget {
             padding: const EdgeInsets.only(
                 right: 30.0), // Move button to the left by 30 pixels
             child: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
+              icon: const Icon(Icons.delete, color: Color.fromARGB(255, 252, 42, 42)),
               onPressed: () => _showDeleteConfirmationDialog(
                   context), // Exibe o diálogo de confirmação de exclusão
             ),
@@ -116,12 +124,12 @@ class PlantDetailScreen extends StatelessWidget {
               style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF31511E)),
+                  color: Color(0xFF347928)),
             ),
             const SizedBox(height: 12),
             Text(
               plant.description,
-              style: const TextStyle(fontSize: 16, color: Color(0xFF859F3D)),
+              style: const TextStyle(fontSize: 16, color: Color(0xFFC0EBA6)),
             ),
             const SizedBox(height: 20),
             const Text(
@@ -129,12 +137,12 @@ class PlantDetailScreen extends StatelessWidget {
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF31511E)),
+                  color: Color(0xFF347928)),
             ),
             const SizedBox(height: 8),
             Text(
               plant.careInstructions,
-              style: const TextStyle(fontSize: 16, color: Color(0xFF1A1A19)),
+              style: const TextStyle(fontSize: 16, color: Color(0xFF347928)),
             ),
           ],
         ),

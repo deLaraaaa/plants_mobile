@@ -20,33 +20,35 @@ class PlantListScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF31511E),
+          backgroundColor: const Color(0xFF347928),
           title: const Text('Confirmar Exclusão',
-              style: TextStyle(color: Colors.white)), // Título do diálogo
+              style: TextStyle(color: Color(0xFFFCCD2A))), // Título do diálogo
           content: const Text('Tem certeza de que deseja excluir esta planta?',
-              style: TextStyle(color: Colors.white)), // Conteúdo do diálogo
+              style:
+                  TextStyle(color: Color(0xFFFCCD2A))), // Conteúdo do diálogo
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: const Color(0xFF859F3D),
+                backgroundColor: const Color(0xFFC0EBA6),
               ),
               child: const Text('Cancelar',
-                  style: TextStyle(color: Colors.white)),
+                  style: TextStyle(color: Color(0xFF347928))),
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo
               },
             ),
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: const Color(0xFFFCCD2A),
               ),
               child: const Text('Excluir',
-                  style: TextStyle(color: Colors.white)), // Texto branco
+                  style: TextStyle(color: Color(0xFF347928))), // Texto branco
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo
                 _plantService.deletePlant(plant.id!).then((_) {
                   Toast.showSuccess("Planta excluída com sucesso!",
-                      backgroundColor: Colors.red); // Exibe mensagem de sucesso
+                      backgroundColor:
+                          const Color(0xFFFCCD2A)); // Exibe mensagem de sucesso
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => PlantListScreen()),
@@ -67,66 +69,60 @@ class PlantListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A19),
+      backgroundColor: const Color(0xFFFFFBE6),
       appBar: AppBar(
         title: const Text(
           "Catálogo de Plantas",
-          style:
-              TextStyle(color: Color(0xFF859F3D)),
+          style: TextStyle(color: Color(0xFF347928)),
         ),
-        backgroundColor:
-            const Color(0xFF1A1A19),
+        backgroundColor: const Color(0xFFFCCD2A),
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF31511E)),
+        iconTheme: const IconThemeData(color: Color(0xFF347928)),
       ),
       body: StreamBuilder<List<Plant>>(
         stream: _plantService.getPlants(), // Obtém a lista de plantas
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-                child:
-                    CircularProgressIndicator()); // Exibe um indicador de carregamento
+                child: CircularProgressIndicator(
+              color: Color(0xFF347928),
+            )); // Exibe um indicador de carregamento
           }
           final plants = snapshot.data ??
               []; // Obtém a lista de plantas ou uma lista vazia
           return ListView.builder(
-            padding: const EdgeInsets.all(
-                16),
+            padding: const EdgeInsets.all(16),
             itemCount: plants.length,
             itemBuilder: (context, index) {
               final plant = plants[index];
               return Card(
-                margin: const EdgeInsets.symmetric(
-                    vertical: 8),
+                margin: const EdgeInsets.symmetric(vertical: 8),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      15),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 color: const Color(0xFFFFFFFF),
                 elevation: 3,
                 child: ListTile(
-                  contentPadding: const EdgeInsets.all(
-                      16),
+                  contentPadding: const EdgeInsets.all(16),
                   title: Text(
                     plant.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color:
-                          Color(0xFF31511E),
+                      color: Color(0xFF347928),
                     ),
                   ),
                   subtitle: Text(
                     plant.description,
                     style: const TextStyle(
                         color: Color(
-                            0xFF859F3D)), // Verde mais claro para a descrição
+                            0xFFC0EBA6)), // Verde mais claro para a descrição
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.edit, color: Color(0xFF31511E)),
+                        icon: const Icon(Icons.edit, color: Color(0xFF347928)),
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -135,7 +131,8 @@ class PlantListScreen extends StatelessWidget {
                         ), // Navega para a tela de edição de planta
                       ),
                       IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
+                        icon:
+                            const Icon(Icons.delete, color: Color.fromARGB(255, 255, 0, 0)),
                         onPressed: () => _showDeleteConfirmationDialog(context,
                             plant), // Exibe o diálogo de confirmação de exclusão
                       ),
@@ -159,12 +156,10 @@ class PlantListScreen extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const PlantFormScreen()),
         ),
         elevation: 6,
-        backgroundColor: const Color(0xFF31511E),
-        child: const Icon(Icons.add,
-            color: Color(0xFF1A1A19)),
+        backgroundColor: const Color(0xFF347928),
+        child: const Icon(Icons.add, color: Color(0xFFFCCD2A)),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation
-          .endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

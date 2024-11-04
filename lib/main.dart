@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Plant Catalog',
+      title: 'Catálogo de Plantas',
       theme: ThemeData(
         primaryColor: const Color(0xFF31511E),
         scaffoldBackgroundColor: const Color(0xFFF6FCDF),

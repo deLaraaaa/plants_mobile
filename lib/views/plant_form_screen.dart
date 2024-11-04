@@ -80,9 +80,13 @@ class PlantFormScreenState extends State<PlantFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFBE6), // Fundo suave
       appBar: AppBar(
-        title:
-            Text(widget.plant == null ? "Adicionar Planta" : "Editar Planta"),
+        title: Text(widget.plant == null ? "Adicionar Planta" : "Editar Planta",
+            style: const TextStyle(color: Color(0xFF347928))),
+        backgroundColor: const Color(0xFFFCCD2A),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF347928)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -92,7 +96,16 @@ class PlantFormScreenState extends State<PlantFormScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Nome'),
+                decoration: const InputDecoration(
+                  labelText: 'Nome',
+                  labelStyle: TextStyle(color: Color(0xFF347928)),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF347928)),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF347928)),
+                  ),
+                ),
                 validator: (value) => value!.isEmpty
                     ? 'Campo obrigatório'
                     : null, // Validação do campo
@@ -101,7 +114,16 @@ class PlantFormScreenState extends State<PlantFormScreen> {
               Flexible(
                 child: TextFormField(
                   controller: _descriptionController,
-                  decoration: const InputDecoration(labelText: 'Descrição'),
+                  decoration: const InputDecoration(
+                    labelText: 'Descrição',
+                    labelStyle: TextStyle(color: Color(0xFF347928)),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF347928)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF347928)),
+                    ),
+                  ),
                   validator: (value) => value!.isEmpty
                       ? 'Campo obrigatório'
                       : null, // Validação do campo
@@ -112,7 +134,16 @@ class PlantFormScreenState extends State<PlantFormScreen> {
               Flexible(
                 child: TextFormField(
                   controller: _careInstructionsController,
-                  decoration: const InputDecoration(labelText: 'Cuidados'),
+                  decoration: const InputDecoration(
+                    labelText: 'Cuidados',
+                    labelStyle: TextStyle(color: Color(0xFF347928)),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF347928)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF347928)),
+                    ),
+                  ),
                   validator: (value) => value!.isEmpty
                       ? 'Campo obrigatório'
                       : null, // Validação do campo
@@ -121,8 +152,16 @@ class PlantFormScreenState extends State<PlantFormScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF347928),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
                 onPressed: _savePlant, // Chama a função para salvar a planta
-                child: Text(widget.plant == null ? "Salvar" : "Atualizar"),
+                child: Text(widget.plant == null ? "Salvar" : "Atualizar",
+                    style: const TextStyle(color: Color(0xFFFCCD2A))),
               ),
             ],
           ),
