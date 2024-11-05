@@ -131,8 +131,8 @@ class PlantListScreen extends StatelessWidget {
                         ), // Navega para a tela de edição de planta
                       ),
                       IconButton(
-                        icon:
-                            const Icon(Icons.delete, color: Color.fromARGB(255, 255, 0, 0)),
+                        icon: const Icon(Icons.delete,
+                            color: Color.fromARGB(255, 255, 0, 0)),
                         onPressed: () => _showDeleteConfirmationDialog(context,
                             plant), // Exibe o diálogo de confirmação de exclusão
                       ),

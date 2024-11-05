@@ -107,7 +107,8 @@ class PlantDetailScreen extends StatelessWidget {
             padding: const EdgeInsets.only(
                 right: 30.0), // Move button to the left by 30 pixels
             child: IconButton(
-              icon: const Icon(Icons.delete, color: Color.fromARGB(255, 252, 42, 42)),
+              icon: const Icon(Icons.delete,
+                  color: Color.fromARGB(255, 252, 42, 42)),
               onPressed: () => _showDeleteConfirmationDialog(
                   context), // Exibe o diálogo de confirmação de exclusão
             ),
